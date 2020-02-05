@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serial2Console", "ConsoleApplication2\Serial2Console.csproj", "{BCAA82B6-B5F3-4D6A-89F9-BBE33A5D84A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serial2Console", "Serial2Console\Serial2Console.csproj", "{BCAA82B6-B5F3-4D6A-89F9-BBE33A5D84A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

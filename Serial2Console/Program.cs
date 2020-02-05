@@ -7,7 +7,17 @@ namespace Serial2Console
     {
         public static void Main()
         {
-            SerialPort mySerialPort = new SerialPort("COM6");
+			Console.WriteLine("Select one of available COM ports:");
+			string[] portsList = SerialPort.GetPortNames();
+			for (int i = 0; i<portsList.Length; i++)
+			{
+				Console.WriteLine("["+i.ToString() + "] :" + portsList[i]);
+			}
+			int selectedIndex = -1;
+			string response = Console.ReadLine();
+			bool selected = int.TryParse(response, out selectedIndex);
+			
+            SerialPort mySerialPort = new SerialPort(portsList[selectedIndex]);
 
             mySerialPort.BaudRate = 115200;
             mySerialPort.Parity = Parity.None;
@@ -20,7 +30,7 @@ namespace Serial2Console
 
             mySerialPort.Open();
 
-            Console.WriteLine("Press any key to continue...");
+            Console.WriteLine("Press any key to exit...");
             Console.WriteLine();
             Console.ReadKey();
             mySerialPort.Close();
