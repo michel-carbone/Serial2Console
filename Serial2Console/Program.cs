@@ -17,9 +17,20 @@ namespace Serial2Console
 			string response = Console.ReadLine();
 			bool selected = int.TryParse(response, out selectedIndex);
 			
+			Console.WriteLine("Select desired baud rate:");
+			
+			for (int i = 0; i < SupportedBaudRates.Length; i++)
+			{
+				Console.WriteLine("[" + i.ToString() + "] :" + SupportedBaudRates[i]);
+			}
+			int selectedBaudRateIndex = -1;
+			response = Console.ReadLine();
+			selected = int.TryParse(response, out selectedBaudRateIndex);
+            
+
             SerialPort mySerialPort = new SerialPort(portsList[selectedIndex]);
 
-            mySerialPort.BaudRate = 115200;
+            mySerialPort.BaudRate = SupportedBaudRates[selectedBaudRateIndex];
             mySerialPort.Parity = Parity.None;
             mySerialPort.StopBits = StopBits.One;
             mySerialPort.DataBits = 8;
@@ -27,8 +38,14 @@ namespace Serial2Console
             mySerialPort.RtsEnable = true;
 
             mySerialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-
-            mySerialPort.Open();
+            try 
+            { 
+                mySerialPort.Open(); 
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
             Console.WriteLine("Press any key to exit...");
             Console.WriteLine();
@@ -43,5 +60,22 @@ namespace Serial2Console
             //Console.WriteLine("Data Received:");
             Console.Write(indata);
         }
+
+        public static readonly int [] SupportedBaudRates = new int []
+        {
+            300,
+            600,
+            1200,
+            2400,
+            4800,
+            9600,
+            19200,
+            38400,
+            57600,
+            115200,
+            230400,
+            460800,
+            921600
+        };
     }
 }
