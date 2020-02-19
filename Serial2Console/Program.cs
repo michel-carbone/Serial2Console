@@ -7,30 +7,12 @@ namespace Serial2Console
     {
         public static void Main()
         {
-			Console.WriteLine("Select one of available COM ports:");
-			string[] portsList = SerialPort.GetPortNames();
-			for (int i = 0; i<portsList.Length; i++)
-			{
-				Console.WriteLine("["+i.ToString() + "] :" + portsList[i]);
-			}
-			int selectedIndex = -1;
-			string response = Console.ReadLine();
-			bool selected = int.TryParse(response, out selectedIndex);
-			
-			Console.WriteLine("Select desired baud rate:");
-			
-			for (int i = 0; i < SupportedBaudRates.Length; i++)
-			{
-				Console.WriteLine("[" + i.ToString() + "] :" + SupportedBaudRates[i]);
-			}
-			int selectedBaudRateIndex = -1;
-			response = Console.ReadLine();
-			selected = int.TryParse(response, out selectedBaudRateIndex);
-            
+			string COMPort = selectCOMPort();
+			int baudRate = selectBaudRate();
 
-            SerialPort mySerialPort = new SerialPort(portsList[selectedIndex]);
+            SerialPort mySerialPort = new SerialPort(COMPort);
 
-            mySerialPort.BaudRate = SupportedBaudRates[selectedBaudRateIndex];
+            mySerialPort.BaudRate = baudRate;
             mySerialPort.Parity = Parity.None;
             mySerialPort.StopBits = StopBits.One;
             mySerialPort.DataBits = 8;
@@ -60,6 +42,34 @@ namespace Serial2Console
             //Console.WriteLine("Data Received:");
             Console.Write(indata);
         }
+
+		public static string selectCOMPort()
+		{
+			Console.WriteLine("Select one of available COM ports:");
+			string[] portsList = SerialPort.GetPortNames();
+			for (int i = 0; i<portsList.Length; i++)
+			{
+				Console.WriteLine("["+i.ToString() + "] :" + portsList[i]);
+			}
+			int selectedIndex = -1;
+			string response = Console.ReadLine();
+			bool selected = int.TryParse(response, out selectedIndex);
+			return portsList[selectedIndex];
+		}
+
+		public static int selectBaudRate()
+		{
+			Console.WriteLine("Select desired baud rate:");
+
+			for (int i = 0; i < SupportedBaudRates.Length; i++)
+			{
+				Console.WriteLine("[" + i.ToString() + "] :" + SupportedBaudRates[i]);
+			}
+			int selectedBaudRateIndex = -1;
+			string response = Console.ReadLine();
+			bool selected = int.TryParse(response, out selectedBaudRateIndex);
+			return SupportedBaudRates[selectedBaudRateIndex];
+		}
 
         public static readonly int [] SupportedBaudRates = new int []
         {
