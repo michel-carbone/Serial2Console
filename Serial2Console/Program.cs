@@ -18,10 +18,13 @@ namespace Serial2Console
             mySerialPort.DataBits = 8;
             mySerialPort.Handshake = Handshake.None;
             mySerialPort.RtsEnable = true;
-
+            mySerialPort.ReadBufferSize = 4096;
+            
             mySerialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
             try 
-            { 
+            {
+                Console.WriteLine("Baudrate: " + mySerialPort.BaudRate);
+                Console.WriteLine("ReadBufferSize: " + mySerialPort.ReadBufferSize);
                 mySerialPort.Open(); 
             }
             catch(Exception e)
@@ -85,7 +88,8 @@ namespace Serial2Console
             115200,
             230400,
             460800,
-            921600
+            921600,
+            1000000
         };
     }
 }
